@@ -235,3 +235,34 @@ end
 * `b,c...`表示表达式中依次的分支序号
 
 最后可以加上`->地址`表示导出至
+
+# 模块
+```jl
+module 模块名
+export 导出物列表
+东西
+end
+```
+
+* 模块可以嵌套
+* 使用`using`（在无歧义时调用无需标注模块名）或`import`调用，可以使用`.`调用其中的指定物
+* 所有模块均会using`核心模块(Core)`，在不使用`baremodule`时会import`基本模块(Base)`
+* 顶层模块称为`Top`
+
+例如
+```jl
+module Example
+
+module Foo
+export x,y,z
+using Base.zero,Base.自然数,Base.next
+const x : zero(自然数)
+const y : x
+const z : next(x)
+end
+
+import Foo.y
+const x : Foo.y
+
+end
+```
